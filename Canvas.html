@@ -36,6 +36,9 @@
 				evt.currentTarget.y = evt.stageY;
 				// make sure to redraw the stage to show the change:
 				stage.update(); 
+
+				showRangeValue('currentAxisValueX',evt.stageX); 				
+				showRangeValue('currentAxisValueY',evt.stageY);
 			});
 			
 			stage.update();
@@ -43,6 +46,16 @@
 			console.log(circle.x);
 	
 		}
+
+	/**
+	 * showRangeValue()
+	 * Function used to change the display of values on page.
+	 * given elementId and value.
+	 */
+	function showRangeValue(elementId,value){
+		document.getElementById(elementId).value = value;
+	}
+
 	</script>
 
 </head>
