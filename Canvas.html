@@ -59,14 +59,13 @@
 		line.graphics.endStroke();
 		stage.addChild(line);
 
-		// Helper text
-
-		// For x dimension
+		// Helper text		
 		var offsetX = canvasWidth/10;
 		var offsetY = canvasHeight/10;
+		// For x dimension
 		stage.addChild( new createjs.Text("Low dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
 		stage.addChild( new createjs.Text("High dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/2+canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
-
+		// For y dimension
 		stage.addChild( new createjs.Text("High dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight),rotation:-90}) );
 		stage.addChild( new createjs.Text("High dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight/2)-offsetY,rotation:-90}) );
 
