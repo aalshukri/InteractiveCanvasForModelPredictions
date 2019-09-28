@@ -8,9 +8,12 @@
 	/** Global vars for canvas */
 	var stage, output;
 
-	/** Global var for 'current mood' selector circle obj */
-	var circle; 
+	/** Global var for 'current' selector circle obj */
+	var selectorCurrent; 
 	
+	/** Global var for 'target' selector circle obj */
+	var selectorTarget; 
+
 
 	/**
 	 * init()
@@ -22,23 +25,25 @@
 		// For mobile devices.
 		createjs.Touch.enable(stage);
 		
-		// this lets our drag continue to track the mouse even when it leaves the canvas:
-		// play with commenting this out to see the difference.
+		// this lets our drag continue to track the mouse even when it leaves the canvas
 		stage.mouseMoveOutside = true; 
 		
-		circle = new createjs.Shape();
-		circle.graphics.beginFill("red").drawCircle(0, 0, 20);
+
+		// Selector Current
+		// Add circle for current selector obj
+		selectorCurrent = new createjs.Shape();
+		selectorCurrent.graphics.beginFill("red").drawCircle(0, 0, 20);
 		
-		var label = new createjs.Text("Current", "bold 10px Arial", "#FFFFFF");
-		label.textAlign = "center";
-		label.y = -7;
+		var labelCurrent = new createjs.Text("Current", "bold 10px Arial", "#FFFFFF");
+		labelCurrent.textAlign = "center";
+		labelCurrent.y = -7;
 		
-		var dragger = new createjs.Container();
-		dragger.x = dragger.y = 100;
-		dragger.addChild(circle, label);
-		stage.addChild(dragger);
+		var draggerCurrent = new createjs.Container();
+		draggerCurrent.x = draggerCurrent.y = 100;
+		draggerCurrent.addChild(selectorCurrent, labelCurrent);
+		stage.addChild(draggerCurrent);
 		
-		dragger.on("pressmove",function(evt) {
+		draggerCurrent.on("pressmove",function(evt) {
 			// currentTarget will be the container that the event listener was added to:
 			evt.currentTarget.x = evt.stageX;
 			evt.currentTarget.y = evt.stageY;
@@ -48,11 +53,35 @@
 			showRangeValue('currentAxisValueX',evt.stageX); 				
 			showRangeValue('currentAxisValueY',evt.stageY);
 		});
+
+
+		// Selector Target
+		// Add circle for Target selector obj
+		selectorTarget = new createjs.Shape();
+		selectorTarget.graphics.beginFill("blue").drawCircle(0, 0, 20);
+		
+		var labelTarget = new createjs.Text("Target", "bold 10px Arial", "#FFFFFF");
+		labelTarget.textAlign = "center";
+		labelTarget.y = -7;
+		
+		var draggerTarget = new createjs.Container();
+		draggerTarget.x = draggerTarget.y = 50;
+		draggerTarget.addChild(selectorTarget, labelTarget);
+		stage.addChild(draggerTarget);
+		
+		draggerTarget.on("pressmove",function(evt) {
+			// currentTarget will be the container that the event listener was added to:
+			evt.currentTarget.x = evt.stageX;
+			evt.currentTarget.y = evt.stageY;
+			// make sure to redraw the stage to show the change:
+			stage.update(); 
+
+			showRangeValue('targetAxisValueX',evt.stageX); 				
+			showRangeValue('targetAxisValueY',evt.stageY);
+		});
+
 		
 		stage.update();
-	
-		console.log(circle.x);
-
 	}//\init()
 
 
@@ -74,7 +103,7 @@
 		alternate content
 	</canvas>
 
-	<p>X:<input type="number" class="" value="0" id="currentAxisValueX"></p>
-	<p>Y:<input type="number" class="" value="0" id="currentAxisValueY"></p>
+	<p>Current X:<input type="number" class="" value="0" id="currentAxisValueX"> Y:<input type="number" class="" value="0" id="currentAxisValueY"></p>
+	<p>Target  X:<input type="number" class="" value="0" id="targetAxisValueX"> Y:<input type="number" class="" value="0" id="targetAxisValueY"></p>
  </body>
 </html>
