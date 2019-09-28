@@ -94,6 +94,9 @@
 
 			showRangeValue('currentAxisValueX',evt.stageX); 				
 			showRangeValue('currentAxisValueY',evt.stageY);
+
+			showRangeValue('currentAxisValueXRelative', (evt.stageX/canvasWidth) ); 				
+			showRangeValue('currentAxisValueYRelative', (evt.stageY/canvasHeight) );
 		});
 
 
@@ -120,6 +123,9 @@
 
 			showRangeValue('targetAxisValueX',evt.stageX); 				
 			showRangeValue('targetAxisValueY',evt.stageY);
+
+			showRangeValue('targetAxisValueXRelative', (evt.stageX/canvasWidth) ); 				
+			showRangeValue('targetAxisValueYRelative', (evt.stageY/canvasHeight) );
 		});		
 
 		stageSelector.update();
@@ -159,8 +165,8 @@
 		stageGrid.addChild( new createjs.Text("Low dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
 		stageGrid.addChild( new createjs.Text("High dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/2+canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
 		// For y dimension
-		stageGrid.addChild( new createjs.Text("Low dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight),rotation:-90}) );
-		stageGrid.addChild( new createjs.Text("High dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight/2)-offsetY,rotation:-90}) );		
+		stageGrid.addChild( new createjs.Text("High dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight),rotation:-90}) );
+		stageGrid.addChild( new createjs.Text("Low dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight/2)-offsetY,rotation:-90}) );		
 
 		//update canvas
 		stageGrid.update();
@@ -266,9 +272,6 @@
 		var arr = JSON.parse(objs);
 		addObjectsToCanvas(arr);
 	}
-
-
-
 	</script>
 
 	<style>	
@@ -298,7 +301,14 @@
 	<div>
 	 <p>Current X:<input type="number" class="" value="0" id="currentAxisValueX"> Y:<input type="number" class="" value="0" id="currentAxisValueY"></p>
 	 <p>Target  X:<input type="number" class="" value="0" id="targetAxisValueX"> Y:<input type="number" class="" value="0" id="targetAxisValueY"></p>
+
+	 <p>Current (relative) X:<input type="number" class="" value="0" id="currentAxisValueXRelative"> Y:<input type="number" class="" value="0" id="currentAxisValueYRelative"></p>
+	 <p>Target  (relative) X:<input type="number" class="" value="0" id="targetAxisValueXRelative"> Y:<input type="number" class="" value="0" id="targetAxisValueYRelative"></p>
+
+
 	 <button onclick="addObjects()">Add Objects</button>	
+
+
 	</div>	
 
  </body>
