@@ -6,12 +6,20 @@
 
 	<script>
 	/** Global vars for canvas */
-	var stage, output;
-	var stageObj;
+	var output;
+	var stageGrid;
+	var stageObjs;
+	var stageSelector;
+
+	/** Main Canvas Div */
+	var canvasDiv      = 'canvasDiv';
+
+	/** Global vars for canvas layers */
+	var canvasGrid     = 'CanvasGrid';
+	var canvasObjs     = 'CanvasObjs';
+	var canvasSelector = 'CanvasSelector';
 
 	/** Global vars for canvas size */
-	var canvasId     = 'demoCanvas';
-	var canvasIdbkg  = 'objCanvas';
 	var canvasWidth  = 800;
 	var canvasHeight = 300;
 
@@ -30,51 +38,38 @@
 		//set canvas side using global vars
 		setCanvasSize();
 
-		//Create new canvas
-		stage = new createjs.Stage(canvasId,{transparent:true});
+		//Create new canvas layers
 
-		stageObjs = new createjs.Stage(canvasIdbkg,{transparent:true});
-		//stage.nextStage = stageObjs;
+		//selector stage
+		stageSelector = new createjs.Stage(canvasSelector,{transparent:true});
+
+		//grid stage
+		stageGrid = new createjs.Stage(canvasGrid,{transparent:true});
+		stageGrid.enableDOMEvents(false);
+
+		//objs stage
+		stageObjs = new createjs.Stage(canvasObjs,{transparent:true});
 		stageObjs.enableDOMEvents(false);
 
+
 		// For mobile devices.
-		createjs.Touch.enable(stage);
+		createjs.Touch.enable(stageSelector);
 		
 		// this lets our drag continue to track the mouse even when it leaves the canvas
-		stage.mouseMoveOutside = true; 
+		stageSelector.mouseMoveOutside = true; 
 		
 
-		//Create Grid for input reference
-		var color = '#F3F3F3';
+		setupGridStage();
+		setupSelectorStage();
 
-		// Vertical line
-		var line = new createjs.Shape();
-		line.graphics.setStrokeStyle(3);
-		line.graphics.beginStroke(color);
-		line.graphics.moveTo(canvasWidth/2,canvasHeight); //start x,y
-		line.graphics.lineTo(canvasWidth/2,0);            //end x,y
-		line.graphics.endStroke();
-		stage.addChild(line);
+	}//\init()
+	
 
-		// Horizontal line
-		var line = new createjs.Shape();
-		line.graphics.setStrokeStyle(3);
-		line.graphics.beginStroke(color);
-		line.graphics.moveTo(0,canvasHeight/2);	          //start x,y
-		line.graphics.lineTo(canvasWidth,canvasHeight/2); //end x,y
-		line.graphics.endStroke();
-		stage.addChild(line);
-
-		// Helper text		
-		var offsetX = canvasWidth/10;
-		var offsetY = canvasHeight/10;
-		// For x dimension
-		stage.addChild( new createjs.Text("Low dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
-		stage.addChild( new createjs.Text("High dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/2+canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
-		// For y dimension
-		stage.addChild( new createjs.Text("Low dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight),rotation:-90}) );
-		stage.addChild( new createjs.Text("High dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight/2)-offsetY,rotation:-90}) );
-
+	/**
+	 * setupSelectorStage()
+	 * Function used to setup the stage for current and target selectors
+	 */
+	function setupSelectorStage(){
 
 		// Selector Current
 		// Add circle for current selector obj
@@ -88,14 +83,14 @@
 		var draggerCurrent = new createjs.Container();
 		draggerCurrent.x = draggerCurrent.y = 100;
 		draggerCurrent.addChild(selectorCurrent, labelCurrent);
-		stage.addChild(draggerCurrent);
+		stageSelector.addChild(draggerCurrent);
 		
 		draggerCurrent.on("pressmove",function(evt) {
 			// currentTarget will be the container that the event listener was added to:
 			evt.currentTarget.x = evt.stageX;
 			evt.currentTarget.y = evt.stageY;
 			// make sure to redraw the stage to show the change:
-			stage.update(); 
+			stageSelector.update(); 
 
 			showRangeValue('currentAxisValueX',evt.stageX); 				
 			showRangeValue('currentAxisValueY',evt.stageY);
@@ -114,23 +109,63 @@
 		var draggerTarget = new createjs.Container();
 		draggerTarget.x = draggerTarget.y = 50;
 		draggerTarget.addChild(selectorTarget, labelTarget);
-		stage.addChild(draggerTarget);
+		stageSelector.addChild(draggerTarget);
 		
 		draggerTarget.on("pressmove",function(evt) {
 			// currentTarget will be the container that the event listener was added to:
 			evt.currentTarget.x = evt.stageX;
 			evt.currentTarget.y = evt.stageY;
 			// make sure to redraw the stage to show the change:
-			stage.update(); 
+			stageSelector.update(); 
 
 			showRangeValue('targetAxisValueX',evt.stageX); 				
 			showRangeValue('targetAxisValueY',evt.stageY);
-		});
+		});		
 
-		
-		stage.update();
-	}//\init()
-	
+		stageSelector.update();
+	}//\setupSelectorStage()
+
+
+	/**
+	 * setupGridStage()
+	 * Function used to setup the stage for the grid display
+	 */
+	function setupGridStage(){
+		//Create Grid for input reference
+		var color = '#F3F3F3';
+
+		// Vertical line
+		var line = new createjs.Shape();
+		line.graphics.setStrokeStyle(3);
+		line.graphics.beginStroke(color);
+		line.graphics.moveTo(canvasWidth/2,canvasHeight); //start x,y
+		line.graphics.lineTo(canvasWidth/2,0);            //end x,y
+		line.graphics.endStroke();
+		stageGrid.addChild(line);
+
+		// Horizontal line
+		var line = new createjs.Shape();
+		line.graphics.setStrokeStyle(3);
+		line.graphics.beginStroke(color);
+		line.graphics.moveTo(0,canvasHeight/2);	          //start x,y
+		line.graphics.lineTo(canvasWidth,canvasHeight/2); //end x,y
+		line.graphics.endStroke();
+		stageGrid.addChild(line);
+
+		// Helper text		
+		var offsetX = canvasWidth/10;
+		var offsetY = canvasHeight/10;
+		// For x dimension
+		stageGrid.addChild( new createjs.Text("Low dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
+		stageGrid.addChild( new createjs.Text("High dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/2+canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
+		// For y dimension
+		stageGrid.addChild( new createjs.Text("Low dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight),rotation:-90}) );
+		stageGrid.addChild( new createjs.Text("High dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight/2)-offsetY,rotation:-90}) );		
+
+		//update canvas
+		stageGrid.update();
+	}//\setupGridStage()
+
 
 	/**
 	 * showRangeValue()
@@ -147,11 +182,17 @@
 	 * Update the width and height variables for canvas size.
 	 */
 	function setCanvasSize(){
-		document.getElementById(canvasId).width = canvasWidth;
-		document.getElementById(canvasId).height = canvasHeight;
+		document.getElementById(canvasSelector).width = canvasWidth;
+		document.getElementById(canvasSelector).height = canvasHeight;
 
-		document.getElementById(canvasIdbkg).width = canvasWidth;
-		document.getElementById(canvasIdbkg).height = canvasHeight;
+		document.getElementById(canvasGrid).width = canvasWidth;
+		document.getElementById(canvasGrid).height = canvasHeight;
+
+		document.getElementById(canvasObjs).width = canvasWidth;
+		document.getElementById(canvasObjs).height = canvasHeight;
+
+		document.getElementById(canvasDiv).style.width = ""+canvasWidth+"px";
+		document.getElementById(canvasDiv).style.height = ""+canvasHeight+"px";
 	}
 
 
@@ -182,9 +223,9 @@
 
 			stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal}).graphics.f(colour).dc(0,0,dotSize);			
 		}
-		stageObjs.update();
-		//stage.update();
-	}
+		stageObjs.update();		
+	}//\addObjectsToCanvas()
+
 
 	function addObjects(){
 		objs = '[{"name":"obj1","x":20,"y":30},{"name":"obj2","x":30,"y":60},{"name":"obj3","x":30,"y":60}]';
@@ -201,8 +242,6 @@
 	#canvasDiv {
 	  position: relative;
 	  background: none;
-	  width: 800px; 
-	  height: 300px;
 	}
 
 	/* Style for canvas layout */
@@ -216,9 +255,10 @@
 </head>
  <body onload="init();">
 	
-	<div id="canvasDiv">	
-	 <canvas class="canvasStyle" id="objCanvas" width="0" height="0"></canvas>
-	 <canvas class="canvasStyle" id="demoCanvas" width="0" height="0"></canvas>	 
+	<div id="canvasDiv">		 
+	 <canvas class="canvasStyle" id="CanvasGrid" width="0" height="0"></canvas>
+	 <canvas class="canvasStyle" id="CanvasObjs" width="0" height="0"></canvas>
+	 <canvas class="canvasStyle" id="CanvasSelector" width="0" height="0"></canvas>	 
 	</div>
 	
 	<div>
