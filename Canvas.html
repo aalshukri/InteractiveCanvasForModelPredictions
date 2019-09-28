@@ -209,7 +209,7 @@
 	 * As the canvas is two dimensions (x,y) we only add 
 	 * two observations (features) to this space for each object.
 	 */
-	function addObjectsToCanvas(objs){
+	function addObjectsToCanvas(objs ,highlight=false){
 
 		//check input array
 		if (objs === undefined || objs.length == 0) { return false; }
@@ -218,6 +218,11 @@
 		var colour = "#ff7700";
 		var dotSize = 10;
 		var transparency = 0.5;
+
+		//fixed display variables highlights
+		var colourHigh = "#C65C00";
+		var dotSizeHigh = 8;
+		var transparencyHigh = 0.9;
 
 		//obj variables placeholder
 		var name;
@@ -260,8 +265,12 @@
 			//scale relative to max xy
 			xVal = (xVal/canvasWidth)*canvasWidth;
 			yVal = (yVal/canvasHeight)*canvasHeight;	
-
-			stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal,alpha:transparency}).graphics.f(colour).dc(0,0,dotSize);			
+	
+			if(highlight){
+				stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal,alpha:transparencyHigh}).graphics.f(colourHigh).dc(0,0,dotSizeHigh);
+			}else{
+				stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal,alpha:transparency}).graphics.f(colour).dc(0,0,dotSize);
+			}
 		}
 		stageObjs.update();		
 	}//\addObjectsToCanvas()
@@ -309,12 +318,18 @@
 
 
 	/**
-	 * plotTrajectoryLine()
+	 * highlightObjsOnCanvas()
 	 * Function used to highlight objs on the canvas.
 	 */
-	function highlightObjsOnCanvas(objs){}
+	function highlightObjsOnCanvas(objs){
+		addObjectsToCanvas(objs ,highlight=true);
+	}
 
-	function highlightObjs(){}
+	function highlightObjs(){
+		objs = '[{"name":"obj3","x":100,"y":80},{"name":"obj3","x":40,"y":200},{"name":"obj3","x":100,"y":100},{"name":"obj3","x":200,"y":200}]';
+		var arr = JSON.parse(objs);
+		highlightObjsOnCanvas(arr);
+	}
 
 	</script>
 
@@ -350,9 +365,11 @@
 	 <p>Target  (relative) X:<input type="number" class="" value="0" id="targetAxisValueXRelative"> Y:<input type="number" class="" value="0" id="targetAxisValueYRelative"></p>
 
 
-	 <button onclick="addObjects()">Add Objects</button>	
+	 <p><button onclick="addObjects()">Add Objects</button></p>
 
-	<button onclick="plotTrajectory()">Plot Trajectory</button>	
+	 <p><button onclick="plotTrajectory()">Plot Trajectory</button></p>	
+
+	 <p><button onclick="highlightObjs()">Highlight Objs</button></p>	
 
 	</div>	
 
