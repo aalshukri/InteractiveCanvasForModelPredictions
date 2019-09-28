@@ -28,7 +28,7 @@
 		//set canvas side using global vars
 		setCanvasSize();
 
-
+		//Create new canvas
 		stage = new createjs.Stage(canvasId);
 
 		// For mobile devices.
@@ -45,8 +45,8 @@
 		var line = new createjs.Shape();
 		line.graphics.setStrokeStyle(3);
 		line.graphics.beginStroke(color);
-		line.graphics.moveTo(400,300);	//start
-		line.graphics.lineTo(400,0);  //end
+		line.graphics.moveTo(canvasWidth/2,canvasHeight); //start x,y
+		line.graphics.lineTo(canvasWidth/2,0);            //end x,y
 		line.graphics.endStroke();
 		stage.addChild(line);
 
@@ -54,8 +54,8 @@
 		var line = new createjs.Shape();
 		line.graphics.setStrokeStyle(3);
 		line.graphics.beginStroke(color);
-		line.graphics.moveTo(0,150);	//start
-		line.graphics.lineTo(800,150);  //end
+		line.graphics.moveTo(0,canvasHeight/2);	          //start x,y
+		line.graphics.lineTo(canvasWidth,canvasHeight/2); //end x,y
 		line.graphics.endStroke();
 		stage.addChild(line);
 
