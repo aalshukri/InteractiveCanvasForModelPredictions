@@ -154,12 +154,15 @@
 	 * two observations (features) to this space for each object.
 	 */
 	function addObjectsToCanvas(objs){
-		alert("addObjectsToCanvas()");
+		for (i in objs) {
+		 	alert( ""+objs[i].name+" x="+objs[i].x+" y="+objs[i].y+"");
+		}
 	}
 
 	function addObjects(){
-		objs = '[{"name":"obj1",x:20,y:30},{"name":"obj2",x:30,y:60},{"name":"obj3",x:30,y:60}]';
-		addObjectsToCanvas(objs);
+		objs = '[{"name":"obj1","x":20,"y":30},{"name":"obj2","x":30,"y":60},{"name":"obj3","x":30,"y":60}]';
+		var arr = JSON.parse(objs);
+		addObjectsToCanvas(arr);
 	}
 
 
