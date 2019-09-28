@@ -5,9 +5,17 @@
 	<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 
 	<script>
+	/** Global vars for canvas */
 	var stage, output;
-	var circle; //global var to hold current selector obj
+
+	/** Global var for 'current' selector circle obj */
+	var circle; 
 	
+
+	/**
+	 * init()
+	 * Setup canvas.
+	 */
 	function init() {
 		stage = new createjs.Stage("demoCanvas");
 
@@ -45,7 +53,8 @@
 	
 		console.log(circle.x);
 
-	}
+	}//\init()
+
 
 	/**
 	 * showRangeValue()
