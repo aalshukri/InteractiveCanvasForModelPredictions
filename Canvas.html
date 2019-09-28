@@ -8,6 +8,11 @@
 	/** Global vars for canvas */
 	var stage, output;
 
+	/** Global vars for canvas size */
+	var canvasId     = 'demoCanvas';
+	var canvasWidth  = 800;
+	var canvasHeight = 300;
+
 	/** Global var for 'current' selector circle obj */
 	var selectorCurrent; 
 	
@@ -20,6 +25,10 @@
 	 * Setup canvas.
 	 */
 	function init() {
+		//set canvas side using global vars
+		setCanvasSize();
+
+
 		stage = new createjs.Stage("demoCanvas");
 
 		// For mobile devices.
@@ -117,15 +126,29 @@
 	}
 
 
+	/**
+	 * setCanvasSize()
+	 * Update the width and height variables for canvas size.
+	 */
+	function setCanvasSize(){
+		document.getElementById(canvasId).width = canvasWidth;
+		document.getElementById(canvasId).height = canvasHeight;
+	}
+
 	</script>
 
 </head>
  <body onload="init();">
-	<canvas id="demoCanvas" width="800" height="300">
+	<canvas id="demoCanvas" width="0" height="0">
 		alternate content
 	</canvas>
 
 	<p>Current X:<input type="number" class="" value="0" id="currentAxisValueX"> Y:<input type="number" class="" value="0" id="currentAxisValueY"></p>
 	<p>Target  X:<input type="number" class="" value="0" id="targetAxisValueX"> Y:<input type="number" class="" value="0" id="targetAxisValueY"></p>
+
+
+
+
+
  </body>
 </html>
