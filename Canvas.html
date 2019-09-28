@@ -7,9 +7,11 @@
 	<script>
 	/** Global vars for canvas */
 	var stage, output;
+	var stageObj;
 
 	/** Global vars for canvas size */
 	var canvasId     = 'demoCanvas';
+	var canvasIdbkg  = 'objCanvas';
 	var canvasWidth  = 800;
 	var canvasHeight = 300;
 
@@ -29,7 +31,11 @@
 		setCanvasSize();
 
 		//Create new canvas
-		stage = new createjs.Stage(canvasId);
+		stage = new createjs.Stage(canvasId,{transparent:true});
+
+		stageObjs = new createjs.Stage(canvasIdbkg,{transparent:true});
+		//stage.nextStage = stageObjs;
+		stageObjs.enableDOMEvents(false);
 
 		// For mobile devices.
 		createjs.Touch.enable(stage);
@@ -66,7 +72,7 @@
 		stage.addChild( new createjs.Text("Low dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
 		stage.addChild( new createjs.Text("High dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/2+canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
 		// For y dimension
-		stage.addChild( new createjs.Text("High dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight),rotation:-90}) );
+		stage.addChild( new createjs.Text("Low dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight),rotation:-90}) );
 		stage.addChild( new createjs.Text("High dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight/2)-offsetY,rotation:-90}) );
 
 
@@ -143,6 +149,9 @@
 	function setCanvasSize(){
 		document.getElementById(canvasId).width = canvasWidth;
 		document.getElementById(canvasId).height = canvasHeight;
+
+		document.getElementById(canvasIdbkg).width = canvasWidth;
+		document.getElementById(canvasIdbkg).height = canvasHeight;
 	}
 
 
@@ -171,9 +180,10 @@
 			xVal = objs[i].x;
 			yVal = objs[i].y;
 
-			stage.addChild(new createjs.Shape()).set({x:xVal,y:yVal}).graphics.f(colour).dc(0,0,dotSize);			
+			stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal}).graphics.f(colour).dc(0,0,dotSize);			
 		}
-		stage.update();
+		stageObjs.update();
+		//stage.update();
 	}
 
 	function addObjects(){
@@ -186,18 +196,37 @@
 
 	</script>
 
+	<style>	
+	/* Style for main canvas div */
+	#canvasDiv {
+	  position: relative;
+	  background: none;
+	  width: 800px; 
+	  height: 300px;
+	}
+
+	/* Style for canvas layout */
+	.canvasStyle {
+	  position: absolute;
+	  background: none;
+	  border: 1px solid grey;
+	}
+
+	</style>
+
 </head>
  <body onload="init();">
-	<canvas id="demoCanvas" width="0" height="0">
-		alternate content
-	</canvas>
-
-	<p>Current X:<input type="number" class="" value="0" id="currentAxisValueX"> Y:<input type="number" class="" value="0" id="currentAxisValueY"></p>
-	<p>Target  X:<input type="number" class="" value="0" id="targetAxisValueX"> Y:<input type="number" class="" value="0" id="targetAxisValueY"></p>
-
-	<button onclick="addObjects()">Add Objects</button>
-
-
+	
+	<div id="canvasDiv">	
+	 <canvas class="canvasStyle" id="objCanvas" width="0" height="0"></canvas>
+	 <canvas class="canvasStyle" id="demoCanvas" width="0" height="0"></canvas>	 
+	</div>
+	
+	<div>
+	 <p>Current X:<input type="number" class="" value="0" id="currentAxisValueX"> Y:<input type="number" class="" value="0" id="currentAxisValueY"></p>
+	 <p>Target  X:<input type="number" class="" value="0" id="targetAxisValueX"> Y:<input type="number" class="" value="0" id="targetAxisValueY"></p>
+	 <button onclick="addObjects()">Add Objects</button>	
+	</div>	
 
  </body>
 </html>
