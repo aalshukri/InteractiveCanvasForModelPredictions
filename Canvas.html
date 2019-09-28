@@ -29,6 +29,25 @@
 		stage.mouseMoveOutside = true; 
 		
 
+		//Create Grid for input reference
+		var color = '#DCDCDC';
+		var line = new createjs.Shape();
+		line.graphics.setStrokeStyle(3);
+		line.graphics.beginStroke(color);
+		line.graphics.moveTo(400,300);	//start
+		line.graphics.lineTo(400,0);  //end
+		line.graphics.endStroke();
+		stage.addChild(line);
+
+		var line = new createjs.Shape();
+		line.graphics.setStrokeStyle(3);
+		line.graphics.beginStroke(color);
+		line.graphics.moveTo(0,150);	//start
+		line.graphics.lineTo(800,150);  //end
+		line.graphics.endStroke();
+		stage.addChild(line);
+
+
 		// Selector Current
 		// Add circle for current selector obj
 		selectorCurrent = new createjs.Shape();
