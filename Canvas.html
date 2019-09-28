@@ -272,6 +272,41 @@
 		var arr = JSON.parse(objs);
 		addObjectsToCanvas(arr);
 	}
+
+
+	/**
+	 * plotTrajectoryLine()
+	 * Function used to plot a trajectory line between two points.
+	 */
+	function plotTrajectoryLineOnCanvas(xStart,yStart,xEnd,yEnd){
+
+		//Create Grid for input reference
+		var color = '#ff7700';
+
+		// Vertical line
+		var line = new createjs.Shape();
+		line.graphics.setStrokeStyle(5);
+		line.graphics.beginStroke(color);
+		line.graphics.moveTo(xStart,yStart); //start x,y
+		line.graphics.lineTo(xEnd,yEnd);     //end x,y
+		line.graphics.endStroke();
+
+		stageObjs.addChild(line);
+		
+		//update canvas
+		stageObjs.update();
+	}
+
+	function plotTrajectory(){
+		var xStart = document.getElementById('currentAxisValueX').value;
+		var yStart = document.getElementById('currentAxisValueY').value;
+
+		var xEnd = document.getElementById('targetAxisValueX').value;
+		var yEnd = document.getElementById('targetAxisValueY').value;
+
+		plotTrajectoryLineOnCanvas(xStart,yStart,xEnd,yEnd);
+	}
+
 	</script>
 
 	<style>	
@@ -308,6 +343,7 @@
 
 	 <button onclick="addObjects()">Add Objects</button>	
 
+	<button onclick="plotTrajectory()">Plot Trajectory</button>	
 
 	</div>	
 
