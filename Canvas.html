@@ -124,17 +124,7 @@
 		
 		stage.update();
 	}//\init()
-
-
-	/**
-	 * addObjects()
-	 * Function used to add object observations (features)
-	 * to the feature space (canvas)
-	 * As the canvas is two dimensions (x,y) we only add 
-	 * two observations (features) to this space for each object.
-	 */
-	function addObjects(){}
-
+	
 
 	/**
 	 * showRangeValue()
@@ -155,6 +145,25 @@
 		document.getElementById(canvasId).height = canvasHeight;
 	}
 
+
+	/**
+	 * addObjectsToCanvas()
+	 * Function used to add object observations (features)
+	 * to the feature space (canvas)
+	 * As the canvas is two dimensions (x,y) we only add 
+	 * two observations (features) to this space for each object.
+	 */
+	function addObjectsToCanvas(objs){
+		alert("addObjectsToCanvas()");
+	}
+
+	function addObjects(){
+		objs = '[{"name":"obj1",x:20,y:30},{"name":"obj2",x:30,y:60},{"name":"obj3",x:30,y:60}]';
+		addObjectsToCanvas(objs);
+	}
+
+
+
 	</script>
 
 </head>
@@ -166,7 +175,7 @@
 	<p>Current X:<input type="number" class="" value="0" id="currentAxisValueX"> Y:<input type="number" class="" value="0" id="currentAxisValueY"></p>
 	<p>Target  X:<input type="number" class="" value="0" id="targetAxisValueX"> Y:<input type="number" class="" value="0" id="targetAxisValueY"></p>
 
-
+	<button onclick="addObjects()">Add Objects</button>
 
 
 
