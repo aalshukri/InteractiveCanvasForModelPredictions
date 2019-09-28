@@ -205,6 +205,9 @@
 	 */
 	function addObjectsToCanvas(objs){
 
+		//check input array
+		if (objs === undefined || objs.length == 0) { return false; }
+
 		//fixed display variables
 		var colour = "#ff7700";
 		var dotSize = 10;
@@ -215,12 +218,42 @@
 		var xVal;
 		var yVal;
 
+		//function vars		
+		var xMax;
+		var yMax;
+
+		var xMin;
+		var yMin;
+
+		//initialise min and max
+		xMax = objs[0].x;
+		yMax = objs[0].y;
+
+		xMin = objs[0].x;
+		yMin = objs[0].y;
+		
+
+		for (i in objs) {
+			//determine max
+			if( objs[i].x > xMax){xMax=objs[i].x;}
+			if( objs[i].y > yMax){yMax=objs[i].y;}
+
+			//determine min
+			if( objs[i].x < xMin){xMin=objs[i].x;}
+			if( objs[i].y < yMin){yMin=objs[i].y;}			
+		}	
+
+		
 		for (i in objs) {
 		 	//alert( ""+objs[i].name+" x="+objs[i].x+" y="+objs[i].y+"");
 
 			name = objs[i].name;
 			xVal = objs[i].x;
 			yVal = objs[i].y;
+
+			//scale relative to max xy
+			xVal = (xVal/canvasWidth)*canvasWidth;
+			yVal = (yVal/canvasHeight)*canvasHeight;	
 
 			stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal,alpha:transparency}).graphics.f(colour).dc(0,0,dotSize);			
 		}
@@ -229,7 +262,7 @@
 
 
 	function addObjects(){
-		objs = '[{"name":"obj1","x":20,"y":30},{"name":"obj2","x":30,"y":60},{"name":"obj3","x":30,"y":70}]';
+		objs = '[{"name":"obj1","x":20,"y":30},{"name":"obj2","x":30,"y":60},{"name":"obj3","x":30,"y":70},{"name":"obj3","x":100,"y":80},{"name":"obj3","x":40,"y":200},{"name":"obj3","x":100,"y":100},{"name":"obj3","x":200,"y":200}]';
 		var arr = JSON.parse(objs);
 		addObjectsToCanvas(arr);
 	}
