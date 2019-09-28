@@ -154,9 +154,26 @@
 	 * two observations (features) to this space for each object.
 	 */
 	function addObjectsToCanvas(objs){
+
+		//fixed display variables
+		var colour = "#ff7700";
+		var dotSize = 10;
+
+		//obj variables placeholder
+		var name;
+		var xVal;
+		var yVal;
+
 		for (i in objs) {
-		 	alert( ""+objs[i].name+" x="+objs[i].x+" y="+objs[i].y+"");
+		 	//alert( ""+objs[i].name+" x="+objs[i].x+" y="+objs[i].y+"");
+
+			name = objs[i].name;
+			xVal = objs[i].x;
+			yVal = objs[i].y;
+
+			stage.addChild(new createjs.Shape()).set({x:xVal,y:yVal}).graphics.f(colour).dc(0,0,dotSize);			
 		}
+		stage.update();
 	}
 
 	function addObjects(){
