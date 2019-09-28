@@ -208,6 +208,7 @@
 		//fixed display variables
 		var colour = "#ff7700";
 		var dotSize = 10;
+		var transparency = 0.5;
 
 		//obj variables placeholder
 		var name;
@@ -221,14 +222,14 @@
 			xVal = objs[i].x;
 			yVal = objs[i].y;
 
-			stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal}).graphics.f(colour).dc(0,0,dotSize);			
+			stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal,alpha:transparency}).graphics.f(colour).dc(0,0,dotSize);			
 		}
 		stageObjs.update();		
 	}//\addObjectsToCanvas()
 
 
 	function addObjects(){
-		objs = '[{"name":"obj1","x":20,"y":30},{"name":"obj2","x":30,"y":60},{"name":"obj3","x":30,"y":60}]';
+		objs = '[{"name":"obj1","x":20,"y":30},{"name":"obj2","x":30,"y":60},{"name":"obj3","x":30,"y":70}]';
 		var arr = JSON.parse(objs);
 		addObjectsToCanvas(arr);
 	}
