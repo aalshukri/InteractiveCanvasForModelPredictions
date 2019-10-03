@@ -11,6 +11,9 @@
 	var stageObjs;
 	var stageSelector;
 
+	/** Scaling Factor */
+	var scaler      = 0.8;
+
 	/** Main Canvas Div */
 	var canvasDiv      = 'canvasDiv';
 
@@ -20,15 +23,14 @@
 	var canvasSelector = 'CanvasSelector';
 
 	/** Global vars for canvas size */
-	var canvasWidth  = 800;
-	var canvasHeight = 300;
+	var canvasWidth  = Math.round(800*scaler);
+	var canvasHeight = Math.round(800*scaler);
 
 	/** Global var for 'current' selector circle obj */
-	var selectorCurrent; 
-	
-	/** Global var for 'target' selector circle obj */
-	var selectorTarget; 
+	var selectorCurrent;
 
+	/** Global var for 'target' selector circle obj */
+	var selectorTarget;
 
 	/**
 	 * init()
@@ -47,6 +49,7 @@
 		stageGrid = new createjs.Stage(canvasGrid,{transparent:true});
 		stageGrid.enableDOMEvents(false);
 
+
 		//objs stage
 		stageObjs = new createjs.Stage(canvasObjs,{transparent:true});
 		stageObjs.enableDOMEvents(false);
@@ -54,16 +57,14 @@
 
 		// For mobile devices.
 		createjs.Touch.enable(stageSelector);
-		
-		// this lets our drag continue to track the mouse even when it leaves the canvas
-		stageSelector.mouseMoveOutside = true; 
-		
 
-		setupGridStage();
+		// this lets our drag continue to track the mouse even when it leaves the canvas
+		stageSelector.mouseMoveOutside = true;
+
 		setupSelectorStage();
 
 	}//\init()
-	
+
 
 	/**
 	 * setupSelectorStage()
@@ -74,104 +75,73 @@
 		// Selector Current
 		// Add circle for current selector obj
 		selectorCurrent = new createjs.Shape();
-		selectorCurrent.graphics.beginFill("red").drawCircle(0, 0, 20);
-		
-		var labelCurrent = new createjs.Text("Current", "bold 10px Arial", "#FFFFFF");
+		selectorCurrent.graphics.beginFill("#76BCFB").setStrokeStyle(3).beginStroke("#296AA5").drawCircle(0, 0, Math.round(25*scaler));
+
+		var labelCurrent = new createjs.Text();
+		labelCurrent.text = "Current\nMood";
+		labelCurrent.color = "#000000";
+		labelCurrent.font =  "" + Math.round(scaler*12) + "px Helvetica";
 		labelCurrent.textAlign = "center";
-		labelCurrent.y = -7;
-		
+		labelCurrent.y = -10;
+
 		var draggerCurrent = new createjs.Container();
-		draggerCurrent.x = draggerCurrent.y = 100;
+		draggerCurrent.x = canvasWidth/10;
+		draggerCurrent.y = 9*canvasWidth/10;;
+		draggerCurrent.alpha = 0.9;
 		draggerCurrent.addChild(selectorCurrent, labelCurrent);
 		stageSelector.addChild(draggerCurrent);
-		
+
 		draggerCurrent.on("pressmove",function(evt) {
 			// currentTarget will be the container that the event listener was added to:
 			evt.currentTarget.x = evt.stageX;
 			evt.currentTarget.y = evt.stageY;
 			// make sure to redraw the stage to show the change:
-			stageSelector.update(); 
+			stageSelector.update();
 
-			showRangeValue('currentAxisValueX',evt.stageX); 				
+			showRangeValue('currentAxisValueX',evt.stageX);
 			showRangeValue('currentAxisValueY',evt.stageY);
 
-			showRangeValue('currentAxisValueXRelative', (evt.stageX/canvasWidth) ); 				
-			showRangeValue('currentAxisValueYRelative', (evt.stageY/canvasHeight) );
+			// values to use to generate the playlists
+			showRangeValue('currentAxisValueXRelative', (2*((evt.stageX/canvasWidth)-.5)));
+			showRangeValue('currentAxisValueYRelative', (-2*((evt.stageY/canvasHeight)-.5)));
 		});
 
 
 		// Selector Target
 		// Add circle for Target selector obj
 		selectorTarget = new createjs.Shape();
-		selectorTarget.graphics.beginFill("blue").drawCircle(0, 0, 20);
-		
-		var labelTarget = new createjs.Text("Target", "bold 10px Arial", "#FFFFFF");
+		selectorTarget.graphics.beginFill("#FFBD1C").setStrokeStyle(3).beginStroke("#C38B04").drawCircle(0, 0, Math.round(25*scaler));
+		selectorTarget.alpha = 0.9;
+
+		var labelTarget = new createjs.Text();
+		labelTarget.text = "Target\nMood";
+		labelTarget.color = "#000000";
+		labelTarget.font =  "" + Math.round(scaler*12) + "px Helvetica";
 		labelTarget.textAlign = "center";
-		labelTarget.y = -7;
-		
+		labelTarget.y = -10;
+
 		var draggerTarget = new createjs.Container();
-		draggerTarget.x = draggerTarget.y = 50;
+		draggerTarget.x = 9*canvasWidth/10;
+		draggerTarget.y = canvasWidth/10;
 		draggerTarget.addChild(selectorTarget, labelTarget);
 		stageSelector.addChild(draggerTarget);
-		
+
 		draggerTarget.on("pressmove",function(evt) {
 			// currentTarget will be the container that the event listener was added to:
 			evt.currentTarget.x = evt.stageX;
 			evt.currentTarget.y = evt.stageY;
 			// make sure to redraw the stage to show the change:
-			stageSelector.update(); 
+			stageSelector.update();
 
-			showRangeValue('targetAxisValueX',evt.stageX); 				
+			showRangeValue('targetAxisValueX',evt.stageX);
 			showRangeValue('targetAxisValueY',evt.stageY);
 
-			showRangeValue('targetAxisValueXRelative', (evt.stageX/canvasWidth) ); 				
+			showRangeValue('targetAxisValueXRelative', (evt.stageX/canvasWidth) );
 			showRangeValue('targetAxisValueYRelative', (evt.stageY/canvasHeight) );
-		});		
+		});
 
 		stageSelector.update();
 	}//\setupSelectorStage()
-
-
-	/**
-	 * setupGridStage()
-	 * Function used to setup the stage for the grid display
-	 */
-	function setupGridStage(){
-		//Create Grid for input reference
-		var color = '#F3F3F3';
-
-		// Vertical line
-		var line = new createjs.Shape();
-		line.graphics.setStrokeStyle(3);
-		line.graphics.beginStroke(color);
-		line.graphics.moveTo(canvasWidth/2,canvasHeight); //start x,y
-		line.graphics.lineTo(canvasWidth/2,0);            //end x,y
-		line.graphics.endStroke();
-		stageGrid.addChild(line);
-
-		// Horizontal line
-		var line = new createjs.Shape();
-		line.graphics.setStrokeStyle(3);
-		line.graphics.beginStroke(color);
-		line.graphics.moveTo(0,canvasHeight/2);	          //start x,y
-		line.graphics.lineTo(canvasWidth,canvasHeight/2); //end x,y
-		line.graphics.endStroke();
-		stageGrid.addChild(line);
-
-		// Helper text		
-		var offsetX = canvasWidth/10;
-		var offsetY = canvasHeight/10;
-		// For x dimension
-		stageGrid.addChild( new createjs.Text("Low dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
-		stageGrid.addChild( new createjs.Text("High dimen X", "20px Arial", "#ff7700").set({x:(canvasWidth/2+canvasWidth/4)-offsetX,y:(canvasHeight-offsetY)}) );
-		// For y dimension
-		stageGrid.addChild( new createjs.Text("High dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight),rotation:-90}) );
-		stageGrid.addChild( new createjs.Text("Low dimen Y", "20px Arial", "#ff7700").set({x:canvasWidth-offsetY,y:(canvasHeight/2)-offsetY,rotation:-90}) );		
-
-		//update canvas
-		stageGrid.update();
-	}//\setupGridStage()
-
 
 	/**
 	 * showRangeValue()
@@ -206,7 +176,7 @@
 	 * addObjectsToCanvas()
 	 * Function used to add object observations (features)
 	 * to the feature space (canvas)
-	 * As the canvas is two dimensions (x,y) we only add 
+	 * As the canvas is two dimensions (x,y) we only add
 	 * two observations (features) to this space for each object.
 	 */
 	function addObjectsToCanvas(objs ,highlight=false){
@@ -216,12 +186,12 @@
 
 		//fixed display variables
 		var colour = "#ff7700";
-		var dotSize = 10;
+		var dotSize = Math.round(5*scaler);
 		var transparency = 0.5;
 
 		//fixed display variables highlights
 		var colourHigh = "#C65C00";
-		var dotSizeHigh = 8;
+		var dotSizeHigh = Math.round(8*scaler);
 		var transparencyHigh = 0.9;
 
 		//obj variables placeholder
@@ -229,7 +199,7 @@
 		var xVal;
 		var yVal;
 
-		//function vars		
+		//function vars
 		var xMax;
 		var yMax;
 
@@ -242,7 +212,7 @@
 
 		xMin = objs[0].x;
 		yMin = objs[0].y;
-		
+
 
 		for (i in objs) {
 			//determine max
@@ -251,10 +221,10 @@
 
 			//determine min
 			if( objs[i].x < xMin){xMin=objs[i].x;}
-			if( objs[i].y < yMin){yMin=objs[i].y;}			
-		}	
+			if( objs[i].y < yMin){yMin=objs[i].y;}
+		}
 
-		
+
 		for (i in objs) {
 		 	//alert( ""+objs[i].name+" x="+objs[i].x+" y="+objs[i].y+"");
 
@@ -264,15 +234,15 @@
 
 			//scale relative to max xy
 			xVal = (xVal/canvasWidth)*canvasWidth;
-			yVal = (yVal/canvasHeight)*canvasHeight;	
-	
+			yVal = (yVal/canvasHeight)*canvasHeight;
+
 			if(highlight){
 				stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal,alpha:transparencyHigh}).graphics.f(colourHigh).dc(0,0,dotSizeHigh);
 			}else{
 				stageObjs.addChild(new createjs.Shape()).set({x:xVal,y:yVal,alpha:transparency}).graphics.f(colour).dc(0,0,dotSize);
 			}
 		}
-		stageObjs.update();		
+		stageObjs.update();
 	}//\addObjectsToCanvas()
 
 
@@ -294,14 +264,14 @@
 
 		// Vertical line
 		var line = new createjs.Shape();
-		line.graphics.setStrokeStyle(5);
+		line.graphics.setStrokeStyle(2);
 		line.graphics.beginStroke(color);
 		line.graphics.moveTo(xStart,yStart); //start x,y
 		line.graphics.lineTo(xEnd,yEnd);     //end x,y
 		line.graphics.endStroke();
 
 		stageObjs.addChild(line);
-		
+
 		//update canvas
 		stageObjs.update();
 	}
@@ -333,7 +303,7 @@
 
 	</script>
 
-	<style>	
+	<style>
 	/* Style for main canvas div */
 	#canvasDiv {
 	  position: relative;
@@ -343,20 +313,21 @@
 	/* Style for canvas layout */
 	.canvasStyle {
 	  position: absolute;
-	  background: none;
-	  border: 1px solid grey;
+	  background: url("canvas-background.png");
+		background-size: 100% 100%;
 	}
 	</style>
 
 </head>
  <body onload="init();">
-	
-	<div id="canvasDiv">		 
+
+	<div id="canvasDiv">
+
 	 <canvas class="canvasStyle" id="CanvasGrid" width="0" height="0"></canvas>
 	 <canvas class="canvasStyle" id="CanvasObjs" width="0" height="0"></canvas>
-	 <canvas class="canvasStyle" id="CanvasSelector" width="0" height="0"></canvas>	 
+	 <canvas class="canvasStyle" id="CanvasSelector" width="0" height="0"></canvas>
 	</div>
-	
+
 	<div>
 	 <p>Current X:<input type="number" class="" value="0" id="currentAxisValueX"> Y:<input type="number" class="" value="0" id="currentAxisValueY"></p>
 	 <p>Target  X:<input type="number" class="" value="0" id="targetAxisValueX"> Y:<input type="number" class="" value="0" id="targetAxisValueY"></p>
@@ -367,11 +338,11 @@
 
 	 <p><button onclick="addObjects()">Add Objects</button></p>
 
-	 <p><button onclick="plotTrajectory()">Plot Trajectory</button></p>	
+	 <p><button onclick="plotTrajectory()">Plot Trajectory</button></p>
 
-	 <p><button onclick="highlightObjs()">Highlight Objs</button></p>	
+	 <p><button onclick="highlightObjs()">Highlight Objs</button></p>
 
-	</div>	
+	</div>
 
  </body>
 </html>
