@@ -152,6 +152,7 @@
 	 */
 	function addSelectorToStage(stageGeneric)
 	{
+		/* defaults */
 		var fillColour = "#FFBD1C";
 		var strokeColour = "#C38B04";
 		var labelText = "Target\nMood";
@@ -159,23 +160,25 @@
 		var valueDivPixelsY   = "targetAxisValueY";
 		var valueDivRelativeX = "targetAxisValueXRelative";
 		var valueDivRelativeY = "targetAxisValueYRelative";
+		var startPositionX    = 9*canvasWidth/10;
+		var startPositionY    = canvasWidth/10;
 
 		// Selector Target
 		// Add circle for Target selector obj
 		selectorGeneric = new createjs.Shape();
-		selectorGeneric.graphics.beginFill("#FFBD1C").setStrokeStyle(3).beginStroke("#C38B04").drawCircle(0, 0, Math.round(25*scaler));
+		selectorGeneric.graphics.beginFill(fillColour).setStrokeStyle(3).beginStroke(strokeColour).drawCircle(0, 0, Math.round(25*scaler));
 		selectorGeneric.alpha = 0.9;
 
 		var labelGeneric = new createjs.Text();
-		labelGeneric.text = "Target\nMood";
+		labelGeneric.text = labelText;
 		labelGeneric.color = "#000000";
 		labelGeneric.font =  "" + Math.round(scaler*12) + "px Helvetica";
 		labelGeneric.textAlign = "center";
 		labelGeneric.y = -10;
 
 		var draggerGeneric = new createjs.Container();
-		draggerGeneric.x = 9*canvasWidth/10;
-		draggerGeneric.y = canvasWidth/10;
+		draggerGeneric.x = startPositionX;
+		draggerGeneric.y = startPositionY;
 		draggerGeneric.addChild(selectorGeneric, labelGeneric);
 		stageGeneric.addChild(draggerGeneric);
 
@@ -186,11 +189,11 @@
 			// make sure to redraw the stage to show the change:
 			stageGeneric.update();
 
-			showRangeValue('targetAxisValueX',evt.stageX);
-			showRangeValue('targetAxisValueY',evt.stageY);
+			showRangeValue(valueDivPixelsX,evt.stageX);
+			showRangeValue(valueDivPixelsY,evt.stageY);
 
-			showRangeValue('targetAxisValueXRelative', (evt.stageX/canvasWidth) );
-			showRangeValue('targetAxisValueYRelative', (evt.stageY/canvasHeight) );
+			showRangeValue(valueDivRelativeX, (evt.stageX/canvasWidth) );
+			showRangeValue(valueDivRelativeY, (evt.stageY/canvasHeight) );
 		});
 	}
 
