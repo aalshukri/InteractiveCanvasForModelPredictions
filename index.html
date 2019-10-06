@@ -141,12 +141,20 @@
 		});
 
 
+		//add final mood selector
 		addSelectorToStage(stageSelector,
-				fillColour = "#FFBD1C", strokeColour = "#C38B04", labelText = "Final\nMood",
-				valueDivPixelsX = "targetAxisValueX", valueDivPixelsY   = "targetAxisValueY",
-				valueDivRelativeX = "targetAxisValueXRelative", valueDivRelativeY = "targetAxisValueYRelative",
-				startPositionX = 9*canvasWidth/10, startPositionY = canvasWidth/10
+				fillColour 	  = "#EB7777",
+				strokeColour 	  = "#AC3939",
+				labelText    	  = "Final\nMood",
+				valueDivPixelsX   = "finalAxisValueX",
+				valueDivPixelsY   = "finalAxisValueY",
+				valueDivRelativeX = "finalAxisValueXRelative", 
+				valueDivRelativeY = "finalAxisValueYRelative",
+				startPositionX 	  = 5*canvasWidth/10, 
+				startPositionY 	  = 5*canvasWidth/10
 				);
+
+
 		stageSelector.update();
 	}//\setupSelectorStage()
 
@@ -396,9 +404,11 @@
 	<div>
 	 <p>Current X:<input type="number" class="" value="0" id="currentAxisValueX"> Y:<input type="number" class="" value="0" id="currentAxisValueY"></p>
 	 <p>Target  X:<input type="number" class="" value="0" id="targetAxisValueX"> Y:<input type="number" class="" value="0" id="targetAxisValueY"></p>
+	 <p>Final  X:<input type="number" class="" value="0" id="finalAxisValueX"> Y:<input type="number" class="" value="0" id="finalAxisValueY"></p>
 
 	 <p>Current (relative) X:<input type="number" class="" value="0" id="currentAxisValueXRelative"> Y:<input type="number" class="" value="0" id="currentAxisValueYRelative"></p>
 	 <p>Target  (relative) X:<input type="number" class="" value="0" id="targetAxisValueXRelative"> Y:<input type="number" class="" value="0" id="targetAxisValueYRelative"></p>
+	 <p>Final (relative) X:<input type="number" class="" value="0" id="finalAxisValueXRelative"> Y:<input type="number" class="" value="0" id="finalAxisValueYRelative"></p>
 
 
 	 <p><button onclick="addObjects()">Add Objects</button></p>
