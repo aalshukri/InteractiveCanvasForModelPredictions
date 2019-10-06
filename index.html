@@ -209,6 +209,8 @@
 		var startPositionY    = canvasWidth/10;
 		*/
 
+		dragable=true;
+
 		// Selector Target
 		// Add circle for Target selector obj
 		selectorGeneric = new createjs.Shape();
@@ -228,19 +230,21 @@
 		draggerGeneric.addChild(selectorGeneric, labelGeneric);
 		stageGeneric.addChild(draggerGeneric);
 
-		draggerGeneric.on("pressmove",function(evt) {
-			// currentTarget will be the container that the event listener was added to:
-			evt.currentTarget.x = evt.stageX;
-			evt.currentTarget.y = evt.stageY;
-			// make sure to redraw the stage to show the change:
-			stageGeneric.update();
+		if(dragable){
+			draggerGeneric.on("pressmove",function(evt) {
+				// currentTarget will be the container that the event listener was added to:
+				evt.currentTarget.x = evt.stageX;
+				evt.currentTarget.y = evt.stageY;
+				// make sure to redraw the stage to show the change:
+				stageGeneric.update();
 
-			showRangeValue(valueDivPixelsX,evt.stageX);
-			showRangeValue(valueDivPixelsY,evt.stageY);
+				showRangeValue(valueDivPixelsX,evt.stageX);
+				showRangeValue(valueDivPixelsY,evt.stageY);
 
-			showRangeValue(valueDivRelativeX, (evt.stageX/canvasWidth) );
-			showRangeValue(valueDivRelativeY, (evt.stageY/canvasHeight) );
-		});
+				showRangeValue(valueDivRelativeX, (evt.stageX/canvasWidth) );
+				showRangeValue(valueDivRelativeY, (evt.stageY/canvasHeight) );
+			});
+		}
 	}
 
 
