@@ -141,7 +141,12 @@
 		});
 
 
-		addSelectorToStage(stageSelector);
+		addSelectorToStage(stageSelector,
+				fillColour = "#FFBD1C", strokeColour = "#C38B04", labelText = "Final\nMood",
+				valueDivPixelsX = "targetAxisValueX", valueDivPixelsY   = "targetAxisValueY",
+				valueDivRelativeX = "targetAxisValueXRelative", valueDivRelativeY = "targetAxisValueYRelative",
+				startPositionX = 9*canvasWidth/10, startPositionY = canvasWidth/10
+				);
 		stageSelector.update();
 	}//\setupSelectorStage()
 
@@ -150,9 +155,13 @@
 	 * addSelectorToStage()
 	 * Function used to add a selector with given style params to given stage obj.
 	 */
-	function addSelectorToStage(stageGeneric)
+	function addSelectorToStage(stageGeneric,
+				fillColour,strokeColour,labelText,
+				valueDivPixelsX,valueDivPixelsY,
+				valueDivRelativeX,valueDivRelativeY,
+				startPositionX,startPositionY)
 	{
-		/* defaults */
+		/* 
 		var fillColour = "#FFBD1C";
 		var strokeColour = "#C38B04";
 		var labelText = "Target\nMood";
@@ -162,6 +171,7 @@
 		var valueDivRelativeY = "targetAxisValueYRelative";
 		var startPositionX    = 9*canvasWidth/10;
 		var startPositionY    = canvasWidth/10;
+		*/
 
 		// Selector Target
 		// Add circle for Target selector obj
