@@ -153,7 +153,8 @@
 				valueDivRelativeX = "currentAxisValueXRelative", 
 				valueDivRelativeY = "currentAxisValueYRelative",
 				startPositionX 	  = canvasWidth/10, 
-				startPositionY 	  = 9*canvasWidth/10
+				startPositionY 	  = 9*canvasWidth/10,
+				dragable	  = true
 				);
 
 		//add target mood selector
@@ -166,7 +167,8 @@
 				valueDivRelativeX = "targetAxisValueXRelative", 
 				valueDivRelativeY = "targetAxisValueYRelative",
 				startPositionX 	  = 9*canvasWidth/10, 
-				startPositionY 	  = canvasWidth/10
+				startPositionY 	  = canvasWidth/10,
+				dragable	  = true
 				);
 
 		//add final mood selector
@@ -179,7 +181,8 @@
 				valueDivRelativeX = "finalAxisValueXRelative", 
 				valueDivRelativeY = "finalAxisValueYRelative",
 				startPositionX 	  = 5*canvasWidth/10, 
-				startPositionY 	  = 5*canvasWidth/10
+				startPositionY 	  = 5*canvasWidth/10,
+				dragable	  = false
 				);
 
 
@@ -195,7 +198,8 @@
 				fillColour,strokeColour,labelText,
 				valueDivPixelsX,valueDivPixelsY,
 				valueDivRelativeX,valueDivRelativeY,
-				startPositionX,startPositionY)
+				startPositionX,startPositionY,
+				dragable)
 	{
 		/* 
 		var fillColour = "#FFBD1C";
@@ -209,7 +213,7 @@
 		var startPositionY    = canvasWidth/10;
 		*/
 
-		dragable=true;
+		//dragable=false;
 
 		// Selector Target
 		// Add circle for Target selector obj
