@@ -72,6 +72,7 @@
 	 */
 	function setupSelectorStage(){
 
+		/*
 		// Selector Current
 		// Add circle for current selector obj
 		selectorCurrent = new createjs.Shape();
@@ -105,8 +106,9 @@
 			showRangeValue('currentAxisValueXRelative', (2*((evt.stageX/canvasWidth)-.5)));
 			showRangeValue('currentAxisValueYRelative', (-2*((evt.stageY/canvasHeight)-.5)));
 		});
+		*/	
 
-
+		/*
 		// Selector Target
 		// Add circle for Target selector obj
 		selectorTarget = new createjs.Shape();
@@ -139,7 +141,33 @@
 			showRangeValue('targetAxisValueXRelative', (evt.stageX/canvasWidth) );
 			showRangeValue('targetAxisValueYRelative', (evt.stageY/canvasHeight) );
 		});
+		*/
 
+		//add current mood selector
+		addSelectorToStage(stageSelector,
+				fillColour 	  = "#76BCFB",
+				strokeColour 	  = "#296AA5",
+				labelText    	  = "Current\nMood",
+				valueDivPixelsX   = "currentAxisValueX",
+				valueDivPixelsY   = "currentAxisValueY",
+				valueDivRelativeX = "currentAxisValueXRelative", 
+				valueDivRelativeY = "currentAxisValueYRelative",
+				startPositionX 	  = canvasWidth/10, 
+				startPositionY 	  = 9*canvasWidth/10
+				);
+
+		//add target mood selector
+		addSelectorToStage(stageSelector,
+				fillColour 	  = "#FFBD1C",
+				strokeColour 	  = "#C38B04",
+				labelText    	  = "Target\nMood",
+				valueDivPixelsX   = "targetAxisValueX",
+				valueDivPixelsY   = "targetAxisValueY",
+				valueDivRelativeX = "targetAxisValueXRelative", 
+				valueDivRelativeY = "targetAxisValueYRelative",
+				startPositionX 	  = 9*canvasWidth/10, 
+				startPositionY 	  = canvasWidth/10
+				);
 
 		//add final mood selector
 		addSelectorToStage(stageSelector,
